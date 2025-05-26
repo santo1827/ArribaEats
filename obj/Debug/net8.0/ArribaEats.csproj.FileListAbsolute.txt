@@ -12,3 +12,4 @@
 /Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.pdb
 /Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.genruntimeconfig.cache
 /Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ref/ArribaEats.dll
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.sourcelink.json

@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 using ArribaEats.Models;
 using ArribaEats.Repositories;
 
@@ -69,7 +70,7 @@ namespace ArribaEats
             {
                 Console.Write("Please enter your mobile phone number: ");
                 phone = Console.ReadLine();
-                if (Regex.IsMatch(phone, "^0\d{9}$")) break;
+                if (Regex.IsMatch(phone ?? "", @"^0\d{9}$")) break;
                 Console.WriteLine("Invalid phone number.");
             }
 
@@ -82,7 +83,7 @@ namespace ArribaEats
                 Console.WriteLine("- contain a lowercase letter");
                 Console.WriteLine("- contain an uppercase letter");
                 Console.Write("Please enter a password: ");
-                password = Console.ReadLine();
+                password = Console.ReadLine() ?? "";
 
                 if (!(password.Length >= 8 && password.Any(char.IsDigit) && password.Any(char.IsLower) && password.Any(char.IsUpper)))
                 {
@@ -91,7 +92,7 @@ namespace ArribaEats
                 }
 
                 Console.Write("Please confirm your password: ");
-                if (Console.ReadLine() != password)
+                if ((Console.ReadLine() ?? "") != password)
                 {
                     Console.WriteLine("Passwords do not match.");
                     continue;
@@ -106,7 +107,7 @@ namespace ArribaEats
                 {
                     Console.Write("Please enter your location (in the form of X,Y): ");
                     location = Console.ReadLine();
-                    if (Regex.IsMatch(location, "^-?\d+,-?\d+$")) break;
+                    if (Regex.IsMatch(location ?? "", @"^-?\d+,-?\d+$")) break;
                     Console.WriteLine("Invalid location.");
                 }
                 var customer = new Customer(name, age, email, phone, password, location);
@@ -120,7 +121,7 @@ namespace ArribaEats
                 {
                     Console.Write("Please enter your licence plate: ");
                     plate = Console.ReadLine();
-                    if (!string.IsNullOrWhiteSpace(plate) && Regex.IsMatch(plate, "^[A-Z0-9 ]{1,8}$") && plate.Trim().Length > 0) break;
+                    if (!string.IsNullOrWhiteSpace(plate) && Regex.IsMatch(plate, @"^[A-Z0-9 ]{1,8}$") && plate.Trim().Length > 0) break;
                     Console.WriteLine("Invalid licence plate.");
                 }
                 var deliverer = new Deliverer(name, age, email, phone, password, plate);
@@ -139,12 +140,13 @@ namespace ArribaEats
                 }
 
                 Console.WriteLine("Please select your restaurant's style:");
-                Console.WriteLine("1: Italian
-2: French
-3: Chinese
-4: Japanese
-5: American
-6: Australian");
+                Console.WriteLine("1: Italian");
+                Console.WriteLine("2: French");
+                Console.WriteLine("3: Chinese");
+                Console.WriteLine("4: Japanese");
+                Console.WriteLine("5: American");
+                Console.WriteLine("6: Australian");
+
                 int style;
                 while (true)
                 {
@@ -153,17 +155,28 @@ namespace ArribaEats
                     Console.WriteLine("Invalid choice.");
                 }
 
+                string styleName = style switch
+                {
+                    1 => "Italian",
+                    2 => "French",
+                    3 => "Chinese",
+                    4 => "Japanese",
+                    5 => "American",
+                    6 => "Australian",
+                    _ => "Unknown"
+                };
+
                 string rLoc;
                 while (true)
                 {
                     Console.Write("Please enter your location (in the form of X,Y): ");
                     rLoc = Console.ReadLine();
-                    if (Regex.IsMatch(rLoc, "^-?\d+,-?\d+$")) break;
+                    if (Regex.IsMatch(rLoc ?? "", @"^-?\d+,-?\d+$")) break;
                     Console.WriteLine("Invalid location.");
                 }
 
                 var client = new Client(name, age, email, phone, password, rName, style, rLoc);
-                var restaurant = new Restaurant(rName, email, style, rLoc);
+                var restaurant = new Restaurant(rName, styleName, email, rLoc, rLoc, new Dictionary<string, decimal>());
                 UserRepository.Add(client);
                 RestaurantRepository.Add(restaurant);
                 Console.WriteLine($"You have been successfully registered as a client, {name}!");

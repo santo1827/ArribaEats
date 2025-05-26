@@ -13,7 +13,8 @@ namespace ArribaEats.Models
         public Dictionary<string, decimal> Menu { get; set; }
         public List<Review> Reviews { get; set; }
 
-        public Restaurant(string name, string cuisineType, string location, string address, string ownerEmail, Dictionary<string, decimal> menu)
+        public Restaurant(string name, string cuisineType, string ownerEmail, string location, string address, Dictionary<string, decimal> menu)
+
         {
             Name = name;
             CuisineType = cuisineType;
