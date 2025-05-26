@@ -10,7 +10,6 @@ namespace ArribaEats.Menus
     {
         public static void Show(Customer customer)
         {
-            Console.WriteLine($"Welcome back, {customer.Name}!");
 
             while (true)
             {

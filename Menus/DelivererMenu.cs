@@ -7,17 +7,8 @@ namespace ArribaEats
     {
         public static void Show(Deliverer deliverer)
         {
-            bool firstEntry = true;
-            
-            
-
             while (true)
             {
-                if (firstEntry)
-                {
-                    Console.WriteLine($"\nWelcome back, {deliverer.Name}!");
-                    firstEntry = false;
-                }
 
                 Console.WriteLine("Please make a choice from the menu below:");
                 Console.WriteLine("1: Display your user information");

@@ -7,15 +7,6 @@ namespace ArribaEats
     {
         public static void Show(Client client)
         {
-            bool firstEntry = true;
-
-            while (true)
-            {
-                if (firstEntry)
-                {
-                    Console.WriteLine($"\nWelcome back, {client.Name}!");
-                    firstEntry = false;
-                }
 
                 Console.WriteLine("Please make a choice from the menu below:");
                 Console.WriteLine("1: Display your user information");
@@ -57,7 +48,6 @@ namespace ArribaEats
                         break;
                 }
             }
-        }
 
         private static void DisplayUserInfo(Client client)
         {
