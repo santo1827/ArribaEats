@@ -1,0 +1,29 @@
+using System.Collections.Generic;
+using System.Linq;
+using ArribaEats.Models;
+
+namespace ArribaEats.Repositories
+{
+    public static class OrderRepository
+    {
+        private static List<Order> orders = new();
+        private static int currentOrderId = 1;
+
+        public static Order Create(string restaurantName, string customerEmail)
+        {
+            var order = new Order(currentOrderId++, restaurantName, customerEmail);
+            orders.Add(order);
+            return order;
+        }
+
+        public static Order GetById(int id) => orders.FirstOrDefault(o => o.OrderNumber == id);
+
+        public static List<Order> GetByCustomer(string email) =>
+            orders.Where(o => o.CustomerEmail == email).ToList();
+
+        public static List<Order> GetByRestaurant(string name) =>
+            orders.Where(o => o.RestaurantName == name).ToList();
+
+        public static List<Order> All => orders;
+    }
+}

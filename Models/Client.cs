@@ -2,13 +2,13 @@ namespace ArribaEats.Models
 {
     public class Client : User
     {
-        public string RestaurantName { get; }
-        public int Style { get; }
-        public string Location { get; }
+        public string RestaurantName { get; set; }
+        public int Style { get; set; } // 1-6
+        public string Location { get; set; }
 
-        public Client(string name, byte age, string email, string phoneNumber, string password,
-                      string restaurantName, int style, string location)
-            : base(name, age, email, phoneNumber, password)
+        public Client(string name, byte age, string email, string phone, string password,
+                       string restaurantName, int style, string location)
+            : base(name, age, email, phone, password)
         {
             RestaurantName = restaurantName;
             Style = style;

@@ -1,22 +1,19 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using ArribaEats.Models;
+using ArribaEats.Repositories;
 
-namespace ArribaEats
+namespace ArribaEats.Menus
 {
     public static class CustomerMenu
     {
         public static void Show(Customer customer)
         {
-            bool firstEntry = true;
+            Console.WriteLine($"Welcome back, {customer.Name}!");
 
             while (true)
             {
-                if (firstEntry)
-                {
-                    Console.WriteLine($"\nWelcome back, {customer.Name}!");
-                    firstEntry = false;
-                }
-
                 Console.WriteLine("Please make a choice from the menu below:");
                 Console.WriteLine("1: Display your user information");
                 Console.WriteLine("2: Select a list of restaurants to order from");
@@ -26,29 +23,23 @@ namespace ArribaEats
                 Console.Write("Please enter a choice between 1 and 5: ");
 
                 string input = Console.ReadLine();
-
                 switch (input)
                 {
                     case "1":
-                        DisplayUserInfo(customer);
+                        ShowInfo(customer);
                         break;
-
                     case "2":
-                        Console.WriteLine("TODO: List available restaurants to order from.");
+                        RestaurantSelector.Show(customer);
                         break;
-
                     case "3":
-                        Console.WriteLine("TODO: Show status of your previous orders.");
+                        OrderViewer.ShowCustomerOrders(customer);
                         break;
-
                     case "4":
-                        Console.WriteLine("TODO: Rate a restaurant from a delivered order.");
+                        ReviewMenu.LeaveReview(customer);
                         break;
-
                     case "5":
                         Console.WriteLine("You are now logged out.");
                         return;
-
                     default:
                         Console.WriteLine("Invalid choice.");
                         break;
@@ -56,15 +47,21 @@ namespace ArribaEats
             }
         }
 
-        private static void DisplayUserInfo(Customer customer)
+        private static void ShowInfo(Customer customer)
         {
             Console.WriteLine("Your user details are as follows:");
             Console.WriteLine($"Name: {customer.Name}");
             Console.WriteLine($"Age: {customer.Age}");
             Console.WriteLine($"Email: {customer.Email}");
-            Console.WriteLine($"Mobile: {customer.PhoneNumber}");
+            Console.WriteLine($"Mobile: {customer.Phone}");
             Console.WriteLine($"Location: {customer.Location}");
-            Console.WriteLine($"You've made {customer.OrdersPlaced} order(s) and spent a total of {customer.TotalSpent:C2} here.");
+
+            var orders = OrderRepository.GetByCustomer(customer.Email);
+            int totalOrders = orders.Count;
+            decimal totalSpent = orders.Sum(o => o.TotalPrice());
+
+            Console.WriteLine($"You've made {totalOrders} order(s) and spent a total of ${totalSpent:F2} here.");
+            Console.WriteLine();
         }
     }
 }

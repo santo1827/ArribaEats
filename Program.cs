@@ -6,10 +6,7 @@ namespace ArribaEats
     {
         public static void Main(string[] args)
         {
-            while (true)
-            {
-                Menu.DisplayStartupMenu();
-            }
+            Menu.ShowStartupMenu();
         }
     }
 }

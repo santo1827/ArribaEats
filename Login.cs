@@ -1,42 +1,39 @@
 using System;
-using System.Linq;
 using ArribaEats.Models;
-using ArribaEats.Repository;
+using ArribaEats.Repositories;
+using ArribaEats.Menus;
 
 namespace ArribaEats
 {
     public static class Login
     {
-        public static void LoginUser()
+        public static void HandleLogin()
         {
             Console.Write("Email: ");
             string email = Console.ReadLine();
-
             Console.Write("Password: ");
             string password = Console.ReadLine();
 
-            var user = UserRepository.Users.FirstOrDefault(u =>
-                u.Email.Equals(email, StringComparison.OrdinalIgnoreCase) &&
-                u.Password == password);
-
-            if (user == null)
+            var user = UserRepository.GetByEmail(email);
+            if (user == null || user.Password != password)
             {
                 Console.WriteLine("Invalid email or password.");
                 return;
             }
 
-            // Dispatch to the correct role menu
-            if (user is Client client)
+            Console.WriteLine($"\nWelcome back, {user.Name}!");
+
+            switch (user)
             {
-                ClientMenu.Show(client);
-            }
-            else if (user is Customer customer)
-            {
-                CustomerMenu.Show(customer);
-            }
-            else if (user is Deliverer deliverer)
-            {
-                DelivererMenu.Show(deliverer);
+                case Customer c:
+                    CustomerMenu.Show(c);
+                    break;
+                case Deliverer d:
+                    DelivererMenu.Show(d);
+                    break;
+                case Client cl:
+                    ClientMenu.Show(cl);
+                    break;
             }
         }
     }
