@@ -52,9 +52,16 @@ public static class Registration
         {
             Console.Write("Please enter your age (18-100): ");
             string input = Console.ReadLine();
-            if (byte.TryParse(input, out age) && age >= 18 && age <= 100) break;
-            Console.WriteLine("Invalid age.");
+
+            if (!byte.TryParse(input, out age) || age < 18 || age > 100)
+            {
+                Console.WriteLine("Invalid age.");
+                continue;
+            }
+
+            break;
         }
+
 
         string email;
         while (true)
