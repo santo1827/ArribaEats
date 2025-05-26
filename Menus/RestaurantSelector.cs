@@ -25,7 +25,7 @@ namespace ArribaEats.Menus
                 Console.WriteLine($"{i + 1}. {restaurant.Name} ({restaurant.CuisineType}) - {rating:F1}⭐");
             }
 
-            Console.Write("Enter the number of the restaurant you want to order from: ");
+            Console.WriteLine("Enter the number of the restaurant you want to order from: ");
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int index) || index < 1 || index > restaurants.Count)
             {
@@ -44,11 +44,11 @@ namespace ArribaEats.Menus
 
             while (true)
             {
-                Console.Write("Enter item name to add (or press Enter to finish): ");
+                Console.WriteLine("Enter item name to add (or press Enter to finish): ");
                 string item = Console.ReadLine();
                 if (string.IsNullOrWhiteSpace(item)) break;
 
-                Console.Write($"Enter quantity of {item}: ");
+                Console.WriteLine($"Enter quantity of {item}: ");
                 string qtyInput = Console.ReadLine();
                 if (int.TryParse(qtyInput, out int qty) && qty > 0)
                 {

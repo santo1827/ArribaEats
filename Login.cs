@@ -9,9 +9,9 @@ namespace ArribaEats
     {
         public static void HandleLogin()
         {
-            Console.Write("Email: ");
+            Console.WriteLine("Email: ");
             string email = Console.ReadLine();
-            Console.Write("Password: ");
+            Console.WriteLine("Password: ");
             string password = Console.ReadLine();
 
             var user = UserRepository.GetByEmail(email);

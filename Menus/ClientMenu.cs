@@ -25,7 +25,7 @@ namespace ArribaEats
                 Console.WriteLine("5: Finish cooking order");
                 Console.WriteLine("6: Handle deliverers who have arrived");
                 Console.WriteLine("7: Log out");
-                Console.Write("Please enter a choice between 1 and 7: ");
+                Console.WriteLine("Please enter a choice between 1 and 7: ");
 
                 string choice = Console.ReadLine();
 

@@ -26,7 +26,7 @@ namespace ArribaEats.Menus
                 Console.WriteLine($"{i + 1}. {notReviewed[i].RestaurantName}");
             }
 
-            Console.Write("Enter the number of the restaurant to review: ");
+            Console.WriteLine("Enter the number of the restaurant to review: ");
             string input = Console.ReadLine();
             if (!int.TryParse(input, out int index) || index < 1 || index > notReviewed.Count)
             {
@@ -35,10 +35,10 @@ namespace ArribaEats.Menus
             }
 
             var order = notReviewed[index - 1];
-            Console.Write("Leave a short review comment: ");
+            Console.WriteLine("Leave a short review comment: ");
             string comment = Console.ReadLine() ?? "";
 
-            Console.Write("Give a star rating (1-5): ");
+            Console.WriteLine("Give a star rating (1-5): ");
             string ratingInput = Console.ReadLine();
             if (!int.TryParse(ratingInput, out int rating) || rating < 1 || rating > 5)
             {

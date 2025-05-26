@@ -26,7 +26,7 @@ namespace ArribaEats.Menus
                 Console.WriteLine("2: View orders");
                 Console.WriteLine("3: Create a mock order (for testing)");
                 Console.WriteLine("4: Log out");
-                Console.Write("Please enter a choice between 1 and 4: ");
+                Console.WriteLine("Please enter a choice between 1 and 4: ");
 
                 string input = Console.ReadLine();
 
@@ -55,13 +55,13 @@ namespace ArribaEats.Menus
                         break;
 
                     case "3":
-                        Console.Write("Enter mock customer email: ");
+                        Console.WriteLine("Enter mock customer email: ");
                         var customerEmail = Console.ReadLine();
 
-                        Console.Write("Enter mock customer name: ");
+                        Console.WriteLine("Enter mock customer name: ");
                         var customerName = Console.ReadLine();
 
-                        Console.Write("Enter mock customer location: ");
+                        Console.WriteLine("Enter mock customer location: ");
                         var customerLocation = Console.ReadLine();
 
                         int nextId = OrderRepository.NextOrderNumber;

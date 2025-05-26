@@ -11,12 +11,12 @@ namespace ArribaEats
     {
         public static void HandleRegistration()
         {
-            Console.WriteLine("Which type of user would you like to register as:");
+            Console.WriteLine("Which type of user would you like to register as?");
             Console.WriteLine("1: Customer");
             Console.WriteLine("2: Deliverer");
             Console.WriteLine("3: Client");
             Console.WriteLine("4: Return to the previous menu");
-            Console.Write("Please enter a choice between 1 and 4: ");
+            Console.WriteLine("Please enter a choice between 1 and 4: ");
 
             string userType = "";
             while (true)
@@ -27,13 +27,13 @@ namespace ArribaEats
                 if (choice == "3") { userType = "Client"; break; }
                 if (choice == "4") return;
                 Console.WriteLine("Invalid choice.");
-                Console.Write("Please enter a choice between 1 and 4: ");
+                Console.WriteLine("Please enter a choice between 1 and 4: ");
             }
 
             string name;
             while (true)
             {
-                Console.Write("Please enter your name: ");
+                Console.WriteLine("Please enter your name: ");
                 name = Console.ReadLine();
                 if (!string.IsNullOrWhiteSpace(name) && name.All(c => char.IsLetter(c) || c == ' ' || c == '-' || c == '\'')) break;
                 Console.WriteLine("Invalid name.");
@@ -42,7 +42,7 @@ namespace ArribaEats
             byte age;
             while (true)
             {
-                Console.Write("Please enter your age (18-100): ");
+                Console.WriteLine("Please enter your age (18-100): ");
                 if (byte.TryParse(Console.ReadLine(), out age) && age >= 18 && age <= 100) break;
                 Console.WriteLine("Invalid age.");
             }
@@ -50,7 +50,7 @@ namespace ArribaEats
             string email;
             while (true)
             {
-                Console.Write("Please enter your email address: ");
+                Console.WriteLine("Please enter your email address: ");
                 email = Console.ReadLine();
                 if (!email.Contains('@') || email.Count(c => c == '@') != 1 || email.StartsWith("@") || email.EndsWith("@"))
                 {
@@ -68,7 +68,7 @@ namespace ArribaEats
             string phone;
             while (true)
             {
-                Console.Write("Please enter your mobile phone number: ");
+                Console.WriteLine("Please enter your mobile phone number: ");
                 phone = Console.ReadLine();
                 if (Regex.IsMatch(phone ?? "", @"^0\d{9}$")) break;
                 Console.WriteLine("Invalid phone number.");
@@ -82,7 +82,7 @@ namespace ArribaEats
                 Console.WriteLine("- contain a number");
                 Console.WriteLine("- contain a lowercase letter");
                 Console.WriteLine("- contain an uppercase letter");
-                Console.Write("Please enter a password: ");
+                Console.WriteLine("Please enter a password: ");
                 password = Console.ReadLine() ?? "";
 
                 if (!(password.Length >= 8 && password.Any(char.IsDigit) && password.Any(char.IsLower) && password.Any(char.IsUpper)))
@@ -91,7 +91,7 @@ namespace ArribaEats
                     continue;
                 }
 
-                Console.Write("Please confirm your password: ");
+                Console.WriteLine("Please confirm your password: ");
                 if ((Console.ReadLine() ?? "") != password)
                 {
                     Console.WriteLine("Passwords do not match.");
@@ -105,7 +105,7 @@ namespace ArribaEats
                 string location;
                 while (true)
                 {
-                    Console.Write("Please enter your location (in the form of X,Y): ");
+                    Console.WriteLine("Please enter your location (in the form of X,Y): ");
                     location = Console.ReadLine();
                     if (Regex.IsMatch(location ?? "", @"^-?\d+,-?\d+$")) break;
                     Console.WriteLine("Invalid location.");
@@ -113,13 +113,14 @@ namespace ArribaEats
                 var customer = new Customer(name, age, email, phone, password, location);
                 UserRepository.Add(customer);
                 Console.WriteLine($"You have been successfully registered as a customer, {name}!");
+                return;
             }
             else if (userType == "Deliverer")
             {
                 string plate;
                 while (true)
                 {
-                    Console.Write("Please enter your licence plate: ");
+                    Console.WriteLine("Please enter your licence plate: ");
                     plate = Console.ReadLine();
                     if (!string.IsNullOrWhiteSpace(plate) && Regex.IsMatch(plate, @"^[A-Z0-9 ]{1,8}$") && plate.Trim().Length > 0) break;
                     Console.WriteLine("Invalid licence plate.");
@@ -133,7 +134,7 @@ namespace ArribaEats
                 string rName;
                 while (true)
                 {
-                    Console.Write("Please enter your restaurant's name: ");
+                    Console.WriteLine("Please enter your restaurant's name: ");
                     rName = Console.ReadLine();
                     if (!string.IsNullOrWhiteSpace(rName)) break;
                     Console.WriteLine("Invalid restaurant name.");
@@ -150,7 +151,7 @@ namespace ArribaEats
                 int style;
                 while (true)
                 {
-                    Console.Write("Please enter a choice between 1 and 6: ");
+                    Console.WriteLine("Please enter a choice between 1 and 6: ");
                     if (int.TryParse(Console.ReadLine(), out style) && style >= 1 && style <= 6) break;
                     Console.WriteLine("Invalid choice.");
                 }
@@ -169,7 +170,7 @@ namespace ArribaEats
                 string rLoc;
                 while (true)
                 {
-                    Console.Write("Please enter your location (in the form of X,Y): ");
+                    Console.WriteLine("Please enter your location (in the form of X,Y): ");
                     rLoc = Console.ReadLine();
                     if (Regex.IsMatch(rLoc ?? "", @"^-?\d+,-?\d+$")) break;
                     Console.WriteLine("Invalid location.");
