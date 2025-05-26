@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using ArribaEats.Models;
 using ArribaEats.Repositories;
@@ -8,85 +7,49 @@ namespace ArribaEats.Menus
 {
     public static class ReviewMenu
     {
-        public static void ShowRestaurantReviews(Restaurant restaurant)
-        {
-            var reviews = RestaurantRepository.GetReviews(restaurant.Name);
-            if (!reviews.Any())
-            {
-                Console.WriteLine("No reviews have been left for this restaurant.");
-                return;
-            }
-
-            foreach (var review in reviews)
-            {
-                Console.WriteLine($"Reviewer: {review.CustomerName}");
-                Console.WriteLine($"Rating: {new string('*', review.StarRating)}");
-                Console.WriteLine($"Comment: {review.Comment}");
-                Console.WriteLine();
-            }
-        }
-
         public static void LeaveReview(Customer customer)
         {
-            var orders = OrderRepository.GetDeliveredOrdersByCustomer(customer.Email)
-                .Where(o => !RestaurantRepository.HasReviewed(customer.Name, o.OrderNumber))
+            var deliveredOrders = OrderRepository.GetDeliveredOrdersByCustomer(customer.Email);
+            var notReviewed = deliveredOrders
+                .Where(o => !RestaurantRepository.HasReviewed(o.RestaurantName, customer.Email))
                 .ToList();
 
-            if (!orders.Any())
+            if (!notReviewed.Any())
             {
-                Console.WriteLine("You have no orders eligible for review.");
+                Console.WriteLine("There are no restaurants eligible for review.");
                 return;
             }
 
-            Console.WriteLine("Select a previous order to rate the restaurant it came from:");
-            for (int i = 0; i < orders.Count; i++)
+            Console.WriteLine("Restaurants you can leave a review for:");
+            for (int i = 0; i < notReviewed.Count; i++)
             {
-                var o = orders[i];
-                Console.WriteLine($"{i + 1}: Order #{o.OrderNumber} from {o.RestaurantName}");
+                Console.WriteLine($"{i + 1}. {notReviewed[i].RestaurantName}");
             }
-            Console.WriteLine($"{orders.Count + 1}: Return to the previous menu");
-            Console.Write($"Please enter a choice between 1 and {orders.Count + 1}: ");
 
-            while (true)
+            Console.Write("Enter the number of the restaurant to review: ");
+            string input = Console.ReadLine();
+            if (!int.TryParse(input, out int index) || index < 1 || index > notReviewed.Count)
             {
-                string input = Console.ReadLine();
-                if (int.TryParse(input, out int choice) && choice >= 1 && choice <= orders.Count + 1)
-                {
-                    if (choice == orders.Count + 1) return;
-
-                    SubmitReview(customer, orders[choice - 1]);
-                    return;
-                }
-
-                Console.WriteLine("Invalid choice.");
-                Console.Write($"Please enter a choice between 1 and {orders.Count + 1}: ");
+                Console.WriteLine("Invalid selection.");
+                return;
             }
-        }
 
-        private static void SubmitReview(Customer customer, Order order)
-        {
-            Console.WriteLine($"You are rating order #{order.OrderNumber} from {order.RestaurantName}:");
-            foreach (var item in order.Items)
-                Console.WriteLine($"{item.Value} x {item.Key}");
+            var order = notReviewed[index - 1];
+            Console.Write("Leave a short review comment: ");
+            string comment = Console.ReadLine() ?? "";
 
-            int stars;
-            while (true)
+            Console.Write("Give a star rating (1-5): ");
+            string ratingInput = Console.ReadLine();
+            if (!int.TryParse(ratingInput, out int rating) || rating < 1 || rating > 5)
             {
-                Console.Write("Please enter a rating for this restaurant (1-5, 0 to cancel): ");
-                if (int.TryParse(Console.ReadLine(), out stars) && stars >= 0 && stars <= 5)
-                    break;
                 Console.WriteLine("Invalid rating.");
+                return;
             }
 
-            if (stars == 0) return;
-
-            Console.Write("Please enter a comment to accompany this rating: ");
-            string comment = Console.ReadLine();
-
-            var review = new Review(customer.Name, order.RestaurantName, stars, comment, order.OrderNumber);
+            var review = new Review(order.OrderNumber, order.RestaurantName, customer.Name, comment, rating);
             RestaurantRepository.AddReview(order.RestaurantName, review);
 
-            Console.WriteLine($"Thank you for rating {order.RestaurantName}.");
+            Console.WriteLine("Your review has been submitted. Thank you!");
         }
     }
 }

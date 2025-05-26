@@ -7,24 +7,37 @@ namespace ArribaEats.Repositories
     public static class RestaurantRepository
     {
         private static List<Restaurant> restaurants = new();
-        private static List<Review> reviews = new();
 
-        public static void Add(Restaurant r) => restaurants.Add(r);
-
-        public static Restaurant GetByName(string name) =>
-            restaurants.FirstOrDefault(r => r.Name == name);
-
-        public static List<Restaurant> All => restaurants;
-
-        public static void AddReview(Review review) => reviews.Add(review);
-
-        public static List<Review> GetReviews(string restaurant) =>
-            reviews.Where(r => r.RestaurantName == restaurant).ToList();
-
-        public static double? GetAverageRating(string restaurant)
+        public static void Add(Restaurant restaurant)
         {
-            var rs = GetReviews(restaurant);
-            return rs.Count == 0 ? null : rs.Average(r => r.Rating);
+            restaurants.Add(restaurant);
+        }
+
+        public static Restaurant GetByName(string name)
+        {
+            return restaurants.FirstOrDefault(r => r.Name == name);
+        }
+
+        public static List<Restaurant> GetAll()
+        {
+            return restaurants;
+        }
+
+        public static bool HasReviewed(string customerEmail, string restaurantName)
+        {
+            var restaurant = GetByName(restaurantName);
+            if (restaurant == null) return false;
+
+            return restaurant.Reviews.Any(r => r.CustomerEmail == customerEmail);
+        }
+
+        public static void AddReview(string restaurantName, Review review)
+        {
+            var restaurant = GetByName(restaurantName);
+            if (restaurant != null)
+            {
+                restaurant.AddReview(review);
+            }
         }
     }
 }

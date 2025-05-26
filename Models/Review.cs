@@ -2,19 +2,19 @@ namespace ArribaEats.Models
 {
     public class Review
     {
-        public int OrderNumber { get; set; }
-        public string RestaurantName { get; set; }
-        public string ReviewerName { get; set; }
-        public int Rating { get; set; } // 1-5
-        public string Comment { get; set; }
+        public int OrderNumber { get; }
+        public string RestaurantName { get; }
+        public string CustomerName { get; }
+        public string Comment { get; }
+        public int StarRating { get; }
 
-        public Review(int orderNumber, string restaurantName, string reviewerName, int rating, string comment)
+        public Review(int orderNumber, string restaurantName, string customerName, string comment, int starRating)
         {
             OrderNumber = orderNumber;
             RestaurantName = restaurantName;
-            ReviewerName = reviewerName;
-            Rating = rating;
+            CustomerName = customerName;
             Comment = comment;
+            StarRating = starRating;
         }
     }
 }

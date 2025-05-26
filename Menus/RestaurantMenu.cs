@@ -1,5 +1,5 @@
 using System;
-using System.Linq;
+using System.Collections.Generic;
 using ArribaEats.Models;
 using ArribaEats.Repositories;
 
@@ -7,96 +7,89 @@ namespace ArribaEats.Menus
 {
     public static class RestaurantMenu
     {
-        public static void Show(Customer customer, Restaurant restaurant)
+        public static void Show(Client client)
         {
-            Console.WriteLine($"Placing order from {restaurant.Name}.");
+            Console.WriteLine($"Welcome back, {client.Name}!");
+
+            var restaurant = RestaurantRepository.GetByOwner(client.Email);
+
+            if (restaurant == null)
+            {
+                Console.WriteLine("No restaurant found for this account.");
+                return;
+            }
 
             while (true)
             {
-                Console.WriteLine("1: See this restaurant's menu and place an order");
-                Console.WriteLine("2: See reviews for this restaurant");
-                Console.WriteLine("3: Return to main menu");
-                Console.Write("Please enter a choice between 1 and 3: ");
+                Console.WriteLine("Please make a choice from the menu below:");
+                Console.WriteLine("1: Display your restaurant details");
+                Console.WriteLine("2: View orders");
+                Console.WriteLine("3: Create a mock order (for testing)");
+                Console.WriteLine("4: Log out");
+                Console.Write("Please enter a choice between 1 and 4: ");
 
                 string input = Console.ReadLine();
+
                 switch (input)
                 {
                     case "1":
-                        OrderMenu(customer, restaurant);
+                        Console.WriteLine($"Restaurant Name: {restaurant.Name}");
+                        Console.WriteLine($"Cuisine Type: {restaurant.CuisineType}");
+                        Console.WriteLine($"Location: {restaurant.Location}");
+                        Console.WriteLine();
                         break;
+
                     case "2":
-                        ReviewMenu.ShowRestaurantReviews(restaurant);
+                        var orders = OrderRepository.GetByRestaurant(restaurant.Name);
+                        if (orders.Count == 0)
+                        {
+                            Console.WriteLine("There are currently no orders for your restaurant.");
+                        }
+                        else
+                        {
+                            foreach (var order in orders)
+                            {
+                                Console.WriteLine($"Order #{order.OrderNumber}: {order.Status} for {order.CustomerName}");
+                            }
+                        }
                         break;
+
                     case "3":
+                        Console.Write("Enter mock customer email: ");
+                        var customerEmail = Console.ReadLine();
+
+                        Console.Write("Enter mock customer name: ");
+                        var customerName = Console.ReadLine();
+
+                        Console.Write("Enter mock customer location: ");
+                        var customerLocation = Console.ReadLine();
+
+                        int nextId = OrderRepository.NextOrderNumber;
+
+                        var mockOrder = new Order(
+                            nextId,
+                            restaurant.Name,
+                            customerEmail ?? "",
+                            customerName ?? "",
+                            customerLocation ?? "",
+                            restaurant.Location
+                        );
+
+                        mockOrder.Items.Add("Mock Burger", 2);
+                        mockOrder.Items.Add("Mock Fries", 1);
+
+                        OrderRepository.Add(mockOrder);
+                        Console.WriteLine($"Mock order #{mockOrder.OrderNumber} created.");
+                        break;
+
+                    case "4":
+                        Console.WriteLine("You are now logged out.");
                         return;
+
                     default:
                         Console.WriteLine("Invalid choice.");
                         break;
                 }
-            }
-        }
-
-        private static void OrderMenu(Customer customer, Restaurant restaurant)
-        {
-            var orderItems = new System.Collections.Generic.Dictionary<string, int>();
-            decimal total = 0;
-
-            while (true)
-            {
-                Console.WriteLine($"Current order total: ${total:F2}");
-
-                int i = 1;
-                foreach (var item in restaurant.Menu)
-                {
-                    Console.WriteLine($"{i}: {item.Value.ToString("C").PadLeft(7)}  {item.Key}");
-                    i++;
-                }
-
-                Console.WriteLine($"{i}: Complete order");
-                Console.WriteLine($"{i + 1}: Cancel order");
-                Console.Write($"Please enter a choice between 1 and {i + 1}: ");
-
-                string choice = Console.ReadLine();
-                if (!int.TryParse(choice, out int selected) || selected < 1 || selected > i + 1)
-                {
-                    Console.WriteLine("Invalid choice.");
-                    continue;
-                }
-
-                if (selected == i + 1) return; // cancel
-                if (selected == i)
-                {
-                    if (!orderItems.Any())
-                    {
-                        Console.WriteLine("You must add at least one item before completing.");
-                        continue;
-                    }
-
-                    int orderNo = OrderRepository.NextOrderNumber();
-                    var order = new Order(orderNo, customer.Email, restaurant.Name, orderItems);
-                    OrderRepository.Add(order);
-                    Console.WriteLine($"Your order has been placed. Your order number is #{orderNo}.");
-                    return;
-                }
-
-                var itemName = restaurant.Menu.Keys.ElementAt(selected - 1);
-                Console.Write("Please enter quantity (0 to cancel): ");
-                string qtyInput = Console.ReadLine();
-                if (!int.TryParse(qtyInput, out int qty) || qty < 0)
-                {
-                    Console.WriteLine("Invalid quantity.");
-                    continue;
-                }
-
-                if (qty == 0) continue;
-
-                if (orderItems.ContainsKey(itemName))
-                    orderItems[itemName] += qty;
-                else
-                    orderItems[itemName] = qty;
-
-                total += restaurant.Menu[itemName] * qty;
-                Console.WriteLine($"Added {qty} x {itemName} to order.");
             }
         }
     }
