@@ -53,7 +53,7 @@ namespace ArribaEats.Menus
             Console.WriteLine($"Name: {customer.Name}");
             Console.WriteLine($"Age: {customer.Age}");
             Console.WriteLine($"Email: {customer.Email}");
-            Console.WriteLine($"Mobile: {customer.Phone}");
+            Console.WriteLine($"Mobile: {customer.PhoneNumber}");
             Console.WriteLine($"Location: {customer.Location}");
 
             var orders = OrderRepository.GetByCustomer(customer.Email);
