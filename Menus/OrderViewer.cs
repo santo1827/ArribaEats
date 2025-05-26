@@ -20,9 +20,9 @@ namespace ArribaEats.Menus
             {
                 Console.WriteLine($"Order #{order.OrderNumber} from {order.RestaurantName}: {order.Status}");
 
-                if (order.Status == "Delivered" && !string.IsNullOrEmpty(order.DeliveredBy))
+                if (order.Status == OrderStatus.Delivered && !string.IsNullOrEmpty(order.DelivererEmail))
                 {
-                    var deliverer = UserRepository.GetByEmail(order.DeliveredBy) as Deliverer;
+                    var deliverer = UserRepository.GetByEmail(order.DelivererEmail) as Deliverer;
                     if (deliverer != null)
                     {
                         Console.WriteLine($"This order was delivered by {deliverer.Name} (licence plate: {deliverer.LicencePlate})");
