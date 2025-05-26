@@ -1,0 +1,14 @@
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.GeneratedMSBuildEditorConfig.editorconfig
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.AssemblyInfoInputs.cache
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.AssemblyInfo.cs
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.csproj.CoreCompileInputs.cache
+/Users/santorae/Desktop/ArribaEats/ArribaEats/bin/Debug/net8.0/ArribaEats
+/Users/santorae/Desktop/ArribaEats/ArribaEats/bin/Debug/net8.0/ArribaEats.deps.json
+/Users/santorae/Desktop/ArribaEats/ArribaEats/bin/Debug/net8.0/ArribaEats.runtimeconfig.json
+/Users/santorae/Desktop/ArribaEats/ArribaEats/bin/Debug/net8.0/ArribaEats.dll
+/Users/santorae/Desktop/ArribaEats/ArribaEats/bin/Debug/net8.0/ArribaEats.pdb
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.dll
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/refint/ArribaEats.dll
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.pdb
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ArribaEats.genruntimeconfig.cache
+/Users/santorae/Desktop/ArribaEats/ArribaEats/obj/Debug/net8.0/ref/ArribaEats.dll
