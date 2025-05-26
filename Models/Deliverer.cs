@@ -6,6 +6,8 @@ namespace ArribaEats.Models
     {
         public string LicencePlate { get; set; }
         public int? CurrentOrderNumber { get; set; } = null;
+        public Order? CurrentOrder { get; set; } = null;
+
 
         public Deliverer(string name, byte age, string email, string phone, string password, string licencePlate)
             : base(name, age, email, phone, password)

@@ -39,5 +39,15 @@ namespace ArribaEats.Models
             CustomerName = customerName;
             CustomerLocation = customerLocation;
         }
+        public decimal TotalPrice()
+        {
+            decimal total = 0;
+            foreach (var item in Items)
+            {
+                total += item.Value * 10.00m; // Replace with actual pricing logic later
+            }
+            return total;
+        }
+
     }
 }
