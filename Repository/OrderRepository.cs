@@ -8,6 +8,7 @@ namespace ArribaEats.Repositories
     {
         private static List<Order> orders = new();
         private static int currentOrderId = 1;
+        public static int NextOrderNumber => currentOrderId;
 
         public static Order Create(
             string restaurantName,
@@ -27,12 +28,22 @@ namespace ArribaEats.Repositories
             orders.Add(order);
             return order;
         }
+        public static void Add(Order order)
+        {
+            orders.Add(order);
+        }
 
 
-        public static Order GetById(int id) => orders.FirstOrDefault(o => o.OrderNumber == id);
+                public static Order GetById(int id) => orders.FirstOrDefault(o => o.OrderNumber == id);
 
-        public static List<Order> GetByCustomer(string email) =>
-            orders.Where(o => o.CustomerEmail == email).ToList();
+                public static List<Order> GetByCustomer(string email) =>
+                    orders.Where(o => o.CustomerEmail == email).ToList();
+                public static List<Order> GetDeliveredOrdersByCustomer(string customerEmail)
+                {
+                    return orders
+                        .Where(o => o.CustomerEmail == customerEmail && o.Status == OrderStatus.Delivered)
+                        .ToList();
+                }
 
         public static List<Order> GetByRestaurant(string name) =>
             orders.Where(o => o.RestaurantName == name).ToList();

@@ -5,6 +5,8 @@ namespace ArribaEats.Models
         public int OrderNumber { get; }
         public string RestaurantName { get; }
         public string CustomerName { get; }
+        public string CustomerEmail { get; set; }
+        public string CustomerLocation { get; set; }
         public string Comment { get; }
         public int StarRating { get; }
 
