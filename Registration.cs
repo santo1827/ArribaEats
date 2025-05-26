@@ -92,9 +92,13 @@ public static class Registration
         {
             Console.Write("Please enter your mobile phone number: ");
             phone = Console.ReadLine();
-            if (Regex.IsMatch(phone, @"^0\d{9}$")) break;
+
+            if (phone.Length == 10 && phone.StartsWith("0") && phone.All(char.IsDigit))
+                break;
+
             Console.WriteLine("Invalid phone number.");
         }
+
 
         string password;
         while (true)
