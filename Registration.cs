@@ -64,11 +64,14 @@ public static class Registration
 
 
         string email;
+        var emailValidator = new EmailAddressAttribute();
+
         while (true)
         {
             Console.Write("Please enter your email address: ");
             email = Console.ReadLine();
-            if (!new EmailAddressAttribute().IsValid(email))
+
+            if (!emailValidator.IsValid(email))
             {
                 Console.WriteLine("Invalid email address.");
                 continue;
@@ -82,6 +85,7 @@ public static class Registration
 
             break;
         }
+
 
         string phone;
         while (true)
