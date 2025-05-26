@@ -9,12 +9,25 @@ namespace ArribaEats.Repositories
         private static List<Order> orders = new();
         private static int currentOrderId = 1;
 
-        public static Order Create(string restaurantName, string customerEmail)
+        public static Order Create(
+            string restaurantName,
+            string restaurantLocation,
+            string customerName,
+            string customerLocation,
+            string customerEmail)
         {
-            var order = new Order(currentOrderId++, restaurantName, customerEmail);
+            var order = new Order(
+                currentOrderId++,
+                restaurantName,
+                restaurantLocation,
+                customerName,
+                customerLocation,
+                customerEmail
+            );
             orders.Add(order);
             return order;
         }
+
 
         public static Order GetById(int id) => orders.FirstOrDefault(o => o.OrderNumber == id);
 
